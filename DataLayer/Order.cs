@@ -15,7 +15,7 @@ namespace DataLayer
 
         public DateTime Required { get; set; } = new DateTime();
 
-        public IList<Category> OrderDetails { get; set; } = null;
+        public IList<OrderDetails> OrderDetails { get; set; } = null;
 
         public string ShipName { get; set; } = null;
 

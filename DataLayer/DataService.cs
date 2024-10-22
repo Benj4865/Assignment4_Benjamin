@@ -286,6 +286,68 @@ public class DataService
     public Order GetOrder(int id)
     {
 
+        var connectionString = "Host=localhost;Port=5432;Username=postgres;Password=*********;Database=NorthWind";
+        using var connection = new NpgsqlConnection(connectionString);
+
+        try
+        {
+            connection.Open();
+            Console.WriteLine("Sucess\n");
+
+            using var cmd = new NpgsqlCommand("SELECT orderid, orderdate, requireddate, shipname, shipcity FROM orders where orderid = " + id, connection);
+
+            using var reader = cmd.ExecuteReader();
+
+            Order order = null;
+
+            while (reader.Read())
+            {
+
+                order = new Order
+                {
+                    Id = reader.GetInt32(0),
+                    Date = reader.GetDateTime(1),
+                    Required = reader.GetDateTime(2),
+                    ShipName = reader.GetString(3),
+                    ShipCity = reader.GetString(4)
+
+                };
+
+            }
+
+            using var cmd2 = new NpgsqlCommand("SELECT productid, unitprice, quantity, discount FROM orderdetails where orderid = " + id, connection);
+
+            using var reader2 = cmd.ExecuteReader();
+
+            var detailslist = new List<OrderDetails>();
+
+            while (reader.Read())
+            {
+
+                var orderdetails = new OrderDetails
+                {
+                    Product = 
+                    ProductId = reader.GetInt32(0),
+                    UnitPrice = reader.GetInt32(1),
+                    Quantity = reader.GetInt32(2),
+                    Discount = reader.GetInt32(3)                   
+
+                };
+
+                detailslist.Add(orderdetails);
+
+            }
+            order.OrderDetails = detailslist;
+
+            return order;
+        }
+
+        catch (Exception)
+        {
+
+            Console.WriteLine("No Product Found");
+        }
+
         return null;
     }
 
@@ -331,5 +393,7 @@ public class DataService
         }
         return null;
     }
+
+    
 
 }

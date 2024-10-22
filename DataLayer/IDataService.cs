@@ -21,12 +21,8 @@ namespace DataLayer
 
 
         Order? GetOrder(int id);
-
         IList<Order> GetOrders();
 
-        //IList<Product> GetProducts();
-        
-        
 
 
 

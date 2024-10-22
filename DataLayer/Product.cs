@@ -10,11 +10,14 @@ namespace DataLayer
     public class Product : IDomainModel
     {
         public int Id { get; set; } = 0;
+
         public string Name { get; set; } = null;
 
         public int supplierid { get; set; }
 
         public int categoryid { get; set; }
+
+        public Category Category { get; set; } = null;
 
         public string QuantityPerUnit { get; set; } = null;
 
